@@ -20,6 +20,7 @@ function LERD(Global)
                           'fit',zeros(N,2),'gen',gen,'t',1);
 
     while Global.NotTermination(Population)
+	t0 = Global.evaluated;
         [Par,NewPop]   = ReformulatedOptimization(Population,Par);
         Population     = EnvironmentSelection([Population,NewPop],Global.N);
         for g = 1 : Par.N
@@ -29,7 +30,7 @@ function LERD(Global)
             PV = find(Par.Dec(g,:)==0);
             Population = SecondOptimization(Population,PV,1);
         end
-        deltaG     = ceil((Global.evaluated-Global.evaluated)/Global.N);
+        deltaG     = ceil((Global.evaluated-t0)/Global.N);
         Population = EvolveByMOEAD(Global,Population,W,deltaG);
     end
 end
